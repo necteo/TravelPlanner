@@ -1,14 +1,25 @@
-import React from "react";
-import {
-  Text,
-  View,
-  Image,
-  ScrollView,
-  Pressable,
-  TouchableOpacity,
-} from "react-native";
+import React, { useState } from "react";
+import { Text, View, Image, ScrollView, TouchableOpacity } from "react-native";
 
-const Members = () => {
+const Member = ({ id }) => {
+  return (
+    <View style={{ flexDirection: "row", marginTop: 20 }}>
+      <Image
+        source={require("../icon/person.png")}
+        style={{ width: 40, height: 40 }}
+      ></Image>
+      <Text style={{ marginTop: 10, marginLeft: 10, fontSize: 20, width: 160 }}>
+        {id}
+      </Text>
+      <Image
+        source={require("../icon/minus.png")}
+        style={{ width: 30, height: 30 }}
+      ></Image>
+    </View>
+  );
+};
+
+const Members = ({ members }) => {
   return (
     <View
       style={{
@@ -19,13 +30,14 @@ const Members = () => {
         marginTop: 10,
       }}
     >
-      <Member></Member>
-      <Member></Member>
+      {members.map((id, idx) => (
+        <Member key={idx} id={id}></Member>
+      ))}
     </View>
   );
 };
 
-const Plan = ({ navigation }) => {
+const Plan = ({ plan, navigation }) => {
   return (
     <View
       style={{
@@ -45,13 +57,13 @@ const Plan = ({ navigation }) => {
         ></Image>
         <View style={{ marginLeft: 10 }}>
           <View style={{ flexDirection: "row" }}>
-            <Text style={{ fontSize: 25, width: 215 }}>Title</Text>
+            <Text style={{ fontSize: 25, width: 215 }}>{plan.title}</Text>
             <Image
               source={require("../icon/dots.png")}
               style={{ height: 40, width: 40 }}
             ></Image>
           </View>
-          <Text>20XX.01.10~20XX.01.12</Text>
+          <Text>{plan.date}</Text>
         </View>
       </View>
       {/* 아래쪽 */}
@@ -63,7 +75,7 @@ const Plan = ({ navigation }) => {
             style={{ height: 25, width: 45, marginLeft: 5 }}
             source={require("../icon/people.png")}
           ></Image>
-          <TouchableOpacity onPress={() => navigation.navigate("TravelGraph")}>
+          <TouchableOpacity onPress={() => navigation.navigate("Tourist")}>
             <Image
               style={{ height: 45, width: 45, marginLeft: 15 }}
               source={require("../icon/right_arrow.png")}
@@ -71,37 +83,41 @@ const Plan = ({ navigation }) => {
           </TouchableOpacity>
         </View>
       </View>
-      <Members></Members>
+      <Members members={plan.members}></Members>
     </View>
   );
 };
 
-const Member = () => {
+export const Plans = ({ viewHeight, plans, navigation }) => {
+  plans = {
+    1: { title: "경주여행", date: "2022-11-02~2022-11-04", members: ["kim"] },
+  };
   return (
-    <View style={{ flexDirection: "row", marginTop: 20 }}>
-      <Image
-        source={require("../icon/person.png")}
-        style={{ width: 40, height: 40 }}
-      ></Image>
-      <Text style={{ marginTop: 10, marginLeft: 10, fontSize: 20, width: 160 }}>
-        이름
-      </Text>
-      <Image
-        source={require("../icon/minus.png")}
-        style={{ width: 30, height: 30 }}
-      ></Image>
-    </View>
-  );
-};
-
-export const Plans = ({ viewHeight, navigation }) => {
-  return (
-    <View>
-      <ScrollView style={{ height: viewHeight }}>
-        <Plan navigation={navigation}></Plan>
-        <Plan></Plan>
-        <Plan></Plan>
-      </ScrollView>
+    <View style={{ alignItems: "center" }}>
+      {Object.keys(plans).length === 0 ? (
+        <View style={{ flexDirection: "row" }}>
+          <Text
+            style={{
+              fontSize: 25,
+              textDecorationLine: "underline",
+              textAlign: "center",
+              marginTop: 40,
+            }}
+          >
+            새로운 계획을 세워봐요!!
+          </Text>
+          <Image
+            style={{ height: 40, width: 40, marginTop: 40, marginLeft: 5 }}
+            source={require("../icon/arrow.png")}
+          ></Image>
+        </View>
+      ) : (
+        <ScrollView style={{ height: viewHeight }}>
+          {Object.keys(plans).map((key) => (
+            <Plan key={key} plan={plans[key]} navigation={navigation}></Plan>
+          ))}
+        </ScrollView>
+      )}
     </View>
   );
 };

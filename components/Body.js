@@ -12,7 +12,6 @@ import {
 } from "react-native";
 
 import { Destination } from "./Destination";
-import { NonPlan } from "./NonPlan";
 import { Plans } from "./Main";
 import { TravelGraph } from "./TravelGraph";
 import { styles } from "../Styles";
@@ -20,15 +19,16 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native";
 import { TabNavigator } from "./TabNavigator";
-import { Vote } from "./Vote";
 import { Tourist } from "./Tourist";
+import { Vote } from "./Vote";
 
 const { height, width } = Dimensions.get("window");
-const viewHeight = height - 60;
+const viewHeight = height;
 
 const Stack = createNativeStackNavigator();
 
 export const Body = () => {
+  const [plans, setPlans] = useState({});
   const [modalVisibleNew, setModalVisibleNew] = useState(false);
   const [modalVisibleCode, setModalVisibleCode] = useState(false);
   const headerLeft = () => (
@@ -73,11 +73,6 @@ export const Body = () => {
     </View>
   );
 
-  const onPress = ({ navigation }) => {
-    setModalVisibleNew(!modalVisibleNew);
-    navigation.navigate("Plans");
-  };
-
   return (
     <View
       style={{
@@ -86,25 +81,25 @@ export const Body = () => {
       }}
     >
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Vote">
+        <Stack.Navigator>
           <Stack.Screen
-            name="NonPlan"
-            component={NonPlan}
-            options={({ navigation }) => ({
+            name="Plans"
+            component={Plans}
+            options={() => ({
               title: "",
               headerStyle: styles.header,
               headerLeft,
               headerRight,
             })}
+            plans={plans}
           />
           <Stack.Screen
-            name="Plans"
-            component={Plans}
-            options={({ navigation }) => ({
+            name="Tourist"
+            component={Tourist}
+            options={() => ({
               title: "",
               headerStyle: styles.header,
               headerLeft,
-              headerRight,
             })}
           />
           <Stack.Screen
@@ -114,7 +109,6 @@ export const Body = () => {
               title: "",
               headerStyle: styles.header,
               headerLeft,
-              headerRight,
             })}
           />
           <Stack.Screen
@@ -135,20 +129,6 @@ export const Body = () => {
               headerStyle: styles.header,
               headerLeft,
             })}
-          />
-          <Stack.Screen
-            name="Tourist"
-            component={Tourist}
-            options={() => ({
-              title: "",
-              headerStyle: styles.header,
-              headerLeft,
-            })}
-          />
-          <Stack.Screen
-            name="TabNavigator"
-            component={TabNavigator}
-            options={{ headerShown: false }}
           />
           {/* <View>
         <ScrollView horizontal contentContainerStyle={styles.timeline}>

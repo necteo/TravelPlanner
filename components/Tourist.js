@@ -13,7 +13,7 @@ import { styles } from "../Styles";
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 // console.log(SCREEN_WIDTH);
 
-export const Tourist = () => {
+export const Tourist = ({ navigation }) => {
   const tourist1 = "첨성대";
   const tourist2 = "불국사";
   const tourist3 = "석굴암";
@@ -43,7 +43,9 @@ export const Tourist = () => {
         ))}
       </ScrollView>
       <View style={{ marginBottom: 30 }}>
-        <AntDesign name="pluscircleo" size={48} color="black" />
+        <TouchableOpacity onPress={() => navigation.navigate("Destination")}>
+          <AntDesign name="pluscircleo" size={48} color="black" />
+        </TouchableOpacity>
       </View>
     </View>
   );

@@ -1,5 +1,14 @@
 import React, { useRef } from "react";
-import { Text, Animated, PanResponder, View, Dimensions } from "react-native";
+import {
+  Text,
+  Animated,
+  PanResponder,
+  View,
+  Dimensions,
+  TextInput,
+  Keyboard,
+  TouchableOpacity,
+} from "react-native";
 import Svg, { Line } from "react-native-svg";
 import styled from "styled-components";
 import { plans } from "../PlanData";
@@ -7,6 +16,7 @@ import { styles } from "../Styles";
 import { Entypo } from "@expo/vector-icons";
 
 const { height, width } = Dimensions.get("window");
+const viewHeight = height - 100;
 
 const getDateDiff = (d1, d2) => {
   const date1 = new Date(d1);
@@ -28,7 +38,6 @@ plans.map((plan) => {
     dd;
   if (maxLen < len) maxLen = len;
 });
-console.log(maxLen);
 
 const CONTENTS_HEIGHT = 120 * plans.length;
 const CONTENTS_WIDTH = 61 * maxLen;
@@ -38,7 +47,7 @@ const Box = styled.View`
 `;
 const AnimatedBox = Animated.createAnimatedComponent(Box);
 
-export const TravelGraph = ({ viewHeight }) => {
+export const TravelGraph = ({ navigation }) => {
   var xOffset,
     yOffset = 0;
   const xDiff = width - CONTENTS_WIDTH >= 0 ? 0 : width - CONTENTS_WIDTH;
@@ -89,7 +98,6 @@ export const TravelGraph = ({ viewHeight }) => {
     PanResponder.create({
       // 터치가 시작되면 감지
       onStartShouldSetPanResponder: () => true,
-
       // 터치 시작될떄 실행되는 함수
       // setOffset은 터치가 시작될 때 값이 reset 되지 않고 저번 터치가 시작됐을 때
       // 위치에서 다시 시작되기 위해 사용함
@@ -101,6 +109,7 @@ export const TravelGraph = ({ viewHeight }) => {
         });
         xOffset = POSITION.x._value;
         yOffset = POSITION.y._value;
+        Keyboard.dismiss();
       },
 
       onPanResponderMove: (_, { dx, dy }) => {
@@ -133,7 +142,27 @@ export const TravelGraph = ({ viewHeight }) => {
 
   return (
     <View>
-      <View style={{ height: 40, backgroundColor: "white", zIndex: -1 }}></View>
+      <View
+        style={{
+          height: 40,
+          backgroundColor: "white",
+          zIndex: -1,
+          flexDirection: "row",
+          justifyContent: "flex-end",
+        }}
+      >
+        <TouchableOpacity onPress={() => navigation.navigate("Vote")}>
+          <Text
+            style={{
+              fontSize: 20,
+              paddingTop: 10,
+              paddingHorizontal: 20,
+            }}
+          >
+            투표
+          </Text>
+        </TouchableOpacity>
+      </View>
       <AnimatedBox
         {...panResponder.panHandlers}
         style={{
@@ -167,9 +196,12 @@ export const TravelGraph = ({ viewHeight }) => {
                         size={14}
                         color="black"
                       />
-                      <Text style={styles.text} adjustsFontSizeToFit={true}>
+                      <TextInput
+                        style={styles.text}
+                        adjustsFontSizeToFit={true}
+                      >
                         {infos.location}
-                      </Text>
+                      </TextInput>
                     </View>
                   )}
 
