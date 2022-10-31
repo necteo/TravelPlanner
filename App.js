@@ -10,7 +10,6 @@ export default function App() {
     <View style={styles.container}>
       <StatusBar style="dark" />
       <Body />
-      <View style={styles.foot}></View>
     </View>
   );
 }
