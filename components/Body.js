@@ -86,7 +86,7 @@ export const Body = () => {
       }}
     >
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Plans">
+        <Stack.Navigator initialRouteName="Vote">
           <Stack.Screen
             name="NonPlan"
             component={NonPlan}
@@ -134,7 +134,6 @@ export const Body = () => {
               title: "",
               headerStyle: styles.header,
               headerLeft,
-              headerRight,
             })}
           />
           <Stack.Screen
@@ -144,7 +143,6 @@ export const Body = () => {
               title: "",
               headerStyle: styles.header,
               headerLeft,
-              headerRight,
             })}
           />
           <Stack.Screen

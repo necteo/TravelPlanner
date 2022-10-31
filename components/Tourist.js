@@ -37,7 +37,7 @@ export const Tourist = () => {
     <View style={styles.travelDestinationListBox}>
       <ScrollView style={styles.touristScrollView}>
         {touristArray.map((tourist, id) => (
-          <View style={styles.travelDestinationBox}>
+          <View key={id} style={styles.travelDestinationBox}>
             <Text style={{ fontSize: 20 }}>{tourist}</Text>
           </View>
         ))}
