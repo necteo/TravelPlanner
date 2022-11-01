@@ -27,14 +27,40 @@ const getDateDiff = (d1, d2) => {
   return diffDate / (1000 * 60 * 60); // 밀리세컨 * 초 * 분 = 시
 };
 
+let firstTime = [plans[0][0].date, 24];
+plans.map((plan) => {
+  const dd = getDateDiff(firstTime[0], plan[0].date);
+  const len =
+    parseInt(plan[0].startTime.split(":")[0]) +
+    parseInt(plan[0].startTime.split(":")[1]) / 60;
+  if (dd < 0) {
+    firstTime[0] = plan[0].date;
+    firstTime[1] = len;
+  } else {
+    if (firstTime[1] > len + dd) {
+      firstTime[0] = plan[0].date;
+      firstTime[1] = len + dd;
+    }
+  }
+});
+const firstWidth = [];
+plans.map((plan) => {
+  firstWidth.push(
+    60 *
+      (parseInt(plan[0].startTime.split(":")[0]) +
+        parseInt(plan[0].startTime.split(":")[1]) / 60 -
+        firstTime[1] +
+        getDateDiff(plan[0].date, firstTime[0]))
+  );
+});
+
 let maxLen = 0;
 plans.map((plan) => {
-  const dd = getDateDiff(plan[plan.length - 1].date, plan[0].date);
+  const dd = getDateDiff(plan[plan.length - 1].date, firstTime[0]);
   const len =
     parseInt(plan[plan.length - 1].endTime.split(":")[0]) +
     parseInt(plan[plan.length - 1].endTime.split(":")[1]) / 60 -
-    (parseInt(plan[0].startTime.split(":")[0]) +
-      parseInt(plan[0].startTime.split(":")[1]) / 60) +
+    firstTime[1] +
     dd;
   if (maxLen < len) maxLen = len;
 });
@@ -175,6 +201,11 @@ export const TravelGraph = ({ navigation }) => {
         {plans.map((plan, yindex) => (
           <View key={yindex} style={{ height: 120, paddingHorizontal: 10 }}>
             <View style={{ flexDirection: "row", height: 80 }}>
+              <View
+                style={{
+                  width: firstWidth[yindex],
+                }}
+              ></View>
               {plan.map((infos, xindex) => (
                 <View key={xindex} style={{ flexDirection: "row" }}>
                   {infos.isDup ? (
@@ -193,15 +224,15 @@ export const TravelGraph = ({ navigation }) => {
                       <Entypo
                         style={{ paddingLeft: 5 }}
                         name="image"
-                        size={14}
+                        size={15}
                         color="black"
                       />
-                      <TextInput
-                        style={styles.text}
-                        adjustsFontSizeToFit={true}
-                      >
-                        {infos.location}
-                      </TextInput>
+                      <View style={{ marginBottom: 20 }}>
+                        <Text style={{}}>{infos.startTime}</Text>
+                        <TextInput style={styles.text}>
+                          {infos.location}
+                        </TextInput>
+                      </View>
                     </View>
                   )}
 
@@ -219,7 +250,7 @@ export const TravelGraph = ({ navigation }) => {
                             x2="100%"
                             y1="50%"
                             y2="50%"
-                            stroke="red"
+                            stroke="black"
                             strokeWidth="2"
                           />
                           <Line
@@ -237,7 +268,7 @@ export const TravelGraph = ({ navigation }) => {
                             }
                             y1="0%"
                             y2="50%"
-                            stroke="red"
+                            stroke="black"
                             strokeWidth="2"
                           />
                         </Svg>
@@ -252,7 +283,7 @@ export const TravelGraph = ({ navigation }) => {
                             x2="100%"
                             y1="33.3%"
                             y2="33.3%"
-                            stroke="red"
+                            stroke="black"
                             strokeWidth="2"
                           />
                           {yindex < plans.length - 1 ? (
@@ -273,7 +304,7 @@ export const TravelGraph = ({ navigation }) => {
                                 }
                                 y1="33.3%"
                                 y2="100%"
-                                stroke="red"
+                                stroke="black"
                                 strokeWidth="2"
                               />
                             ) : null
@@ -293,7 +324,7 @@ export const TravelGraph = ({ navigation }) => {
                             }
                             y1="50%"
                             y2="50%"
-                            stroke="red"
+                            stroke="black"
                             strokeWidth="2"
                           />
                           <Line
@@ -315,7 +346,7 @@ export const TravelGraph = ({ navigation }) => {
                             }
                             y1="0%"
                             y2="50%"
-                            stroke="red"
+                            stroke="black"
                             strokeWidth="2"
                           />
                         </Svg>

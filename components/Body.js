@@ -37,9 +37,9 @@ export const Body = () => {
       style={{ width: 45, height: 35 }}
     ></Image>
   );
-  const headerRight = ({ navigation }) => (
+  const headerRight = () => (
     <View style={{ flexDirection: "row" }}>
-      <TouchableOpacity onPress={({ navigation }) => setModalVisibleCode(true)}>
+      <TouchableOpacity onPress={() => setModalVisibleCode(true)}>
         <Text
           style={{
             borderRadius: 20,
@@ -54,7 +54,7 @@ export const Body = () => {
           CODE
         </Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={({ navigation }) => setModalVisibleNew(true)}>
+      <TouchableOpacity onPress={() => setModalVisibleNew(true)}>
         <Text
           style={{
             borderRadius: 20,
