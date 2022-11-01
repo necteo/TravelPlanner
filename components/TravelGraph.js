@@ -211,29 +211,33 @@ export const TravelGraph = ({ navigation }) => {
                   {infos.isDup ? (
                     <View style={{ width: locWidth[yindex][xindex] }}></View>
                   ) : (
-                    <View
-                      style={{
-                        width: locWidth[yindex][xindex],
-                        borderWidth: 1,
-                        borderRadius: 10,
-                        flexDirection: "row",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                      }}
+                    <TouchableOpacity
+                      onPress={() => navigation.navigate("Tourist")}
                     >
-                      <Entypo
-                        style={{ paddingLeft: 5 }}
-                        name="image"
-                        size={15}
-                        color="black"
-                      />
-                      <View style={{ marginBottom: 20 }}>
-                        <Text style={{}}>{infos.startTime}</Text>
-                        <TextInput style={styles.text}>
-                          {infos.location}
-                        </TextInput>
+                      <View
+                        style={{
+                          width: locWidth[yindex][xindex],
+                          borderWidth: 1,
+                          borderRadius: 10,
+                          flexDirection: "row",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <Entypo
+                          style={{ paddingLeft: 5 }}
+                          name="image"
+                          size={15}
+                          color="black"
+                        />
+                        <View style={{ marginBottom: 20 }}>
+                          <Text>{infos.startTime}</Text>
+                          <TextInput style={styles.text}>
+                            {infos.location}
+                          </TextInput>
+                        </View>
                       </View>
-                    </View>
+                    </TouchableOpacity>
                   )}
 
                   {xindex === plan.length - 1 ? null : infos.isDup ? (

@@ -17,7 +17,7 @@ export const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   text: {
-    fontSize: 24,
+    fontSize: 20,
     paddingHorizontal: 10,
   },
   foot: {

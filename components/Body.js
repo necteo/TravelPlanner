@@ -22,7 +22,7 @@ import { TabNavigator } from "./TabNavigator";
 import { Tourist } from "./Tourist";
 import { Vote } from "./Vote";
 
-const { height, width } = Dimensions.get("window");
+const { height, width } = Dimensions.get("screen");
 const viewHeight = height;
 
 const Stack = createNativeStackNavigator();
@@ -72,6 +72,24 @@ export const Body = () => {
       </TouchableOpacity>
     </View>
   );
+  const headerRightGraph = () => (
+    <TouchableOpacity onPress={() => setModalVisibleNew(true)}>
+      <Text
+        style={{
+          borderRadius: 20,
+          borderWidth: 3,
+          fontSize: 16,
+          width: 55,
+          height: 40,
+          textAlign: "center",
+          marginLeft: 10,
+          paddingTop: 8,
+        }}
+      >
+        NEW
+      </Text>
+    </TouchableOpacity>
+  );
 
   return (
     <View
@@ -86,7 +104,7 @@ export const Body = () => {
             name="Plans"
             component={Plans}
             options={() => ({
-              title: "",
+              title: "계획목록",
               headerStyle: styles.header,
               headerLeft,
               headerRight,
@@ -97,7 +115,7 @@ export const Body = () => {
             name="Tourist"
             component={Tourist}
             options={() => ({
-              title: "",
+              title: "여행지목록",
               headerStyle: styles.header,
               headerLeft,
             })}
@@ -106,7 +124,7 @@ export const Body = () => {
             name="Destination"
             component={Destination}
             options={() => ({
-              title: "",
+              title: "세부내용",
               headerStyle: styles.header,
               headerLeft,
             })}
@@ -115,17 +133,17 @@ export const Body = () => {
             name="TravelGraph"
             component={TravelGraph}
             options={() => ({
-              title: "",
+              title: "전체 계획",
               headerStyle: styles.header,
               headerLeft,
-              headerRight,
+              headerRight: headerRightGraph,
             })}
           />
           <Stack.Screen
             name="Vote"
             component={Vote}
             options={() => ({
-              title: "",
+              title: "투표",
               headerStyle: styles.header,
               headerLeft,
             })}

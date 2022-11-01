@@ -75,7 +75,7 @@ const Plan = ({ plan, navigation }) => {
             style={{ height: 25, width: 45, marginLeft: 5 }}
             source={require("../icon/people.png")}
           ></Image>
-          <TouchableOpacity onPress={() => navigation.navigate("Tourist")}>
+          <TouchableOpacity onPress={() => navigation.navigate("TravelGraph")}>
             <Image
               style={{ height: 45, width: 45, marginLeft: 15 }}
               source={require("../icon/right_arrow.png")}
@@ -91,9 +91,12 @@ const Plan = ({ plan, navigation }) => {
 export const Plans = ({ viewHeight, plans, navigation }) => {
   plans = {
     1: { title: "경주여행", date: "2022-11-02~2022-11-04", members: ["kim"] },
+    2: { title: "부산여행", date: "2022-11-04~2022-11-06", members: ["kim"] },
+    3: { title: "서울여행", date: "2022-11-02~2022-11-04", members: ["kim"] },
+    4: { title: "경기여행", date: "2022-11-02~2022-11-04", members: ["kim"] },
   };
   return (
-    <View style={{ alignItems: "center" }}>
+    <View style={{ alignItems: "center", height: viewHeight }}>
       {Object.keys(plans).length === 0 ? (
         <View style={{ flexDirection: "row" }}>
           <Text
@@ -112,7 +115,7 @@ export const Plans = ({ viewHeight, plans, navigation }) => {
           ></Image>
         </View>
       ) : (
-        <ScrollView style={{ height: viewHeight }}>
+        <ScrollView>
           {Object.keys(plans).map((key) => (
             <Plan key={key} plan={plans[key]} navigation={navigation}></Plan>
           ))}
